@@ -89,7 +89,7 @@ export default function App() {
   console.log(chatList);
 
   return (
-    <>
+    <div>
       {chatList.slice(1).map((value) => (
         <h1>{JSON.stringify(value)}</h1>
       ))}
@@ -104,6 +104,6 @@ export default function App() {
         </div>
         <input type={"submit"} value={"의견 보내기"} />
       </form>
-    </>
+    </div>
   );
 }
