@@ -3,6 +3,7 @@ import { subscribe } from "diagnostics_channel";
 import { useEffect, useRef, useState } from "react";
 import SockJS from "sockjs-client";
 import { WebSocket } from "ws";
+import Chat from "./components/Chat";
 
 // function connect(id: any, setChatList: any) {
 //   let client = new Client({
@@ -90,9 +91,10 @@ export default function App() {
 
   return (
     <div>
-      {chatList.slice(1).map((value) => (
+      {/* {chatList.slice(1).map((value) => (
         <h1>{JSON.stringify(value)}</h1>
-      ))}
+      ))} */}
+      <Chat />
       <form onSubmit={(event) => handleSubmit(event, chat)}>
         <div>
           <input
