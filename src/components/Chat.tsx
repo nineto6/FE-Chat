@@ -2,6 +2,9 @@ import styled from "styled-components";
 const SpeechBubble = styled.div`
   position: relative;
   margin: 50px;
+  max-width: 50%;
+  min-width: 30%;
+
   background: red;
   border-radius: 10px;
   ::after {
@@ -22,6 +25,9 @@ const Container = styled.div`
 const OwnerBubble = styled.div`
   position: relative;
   margin: 50px;
+  max-width: 50%;
+  min-width: 30%;
+
   background: blue;
   border-radius: 10px;
   ::after {
@@ -35,15 +41,30 @@ const OwnerBubble = styled.div`
     right: -15px;
   }
 `;
+
+const BubbleContainer = styled.div<{ point: string }>`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: ${(props) =>
+    props.point == "start" ? "flex-start" : "flex-end"};
+`;
+
 export default function Chat() {
   return (
     <Container>
-      <SpeechBubble>
-        <h1>H</h1>
-      </SpeechBubble>
-      <OwnerBubble>
-        <h1>P</h1>
-      </OwnerBubble>
+      <BubbleContainer point={"start"}>
+        <SpeechBubble>
+          <h1>H</h1>
+        </SpeechBubble>
+      </BubbleContainer>
+
+      <BubbleContainer point={"end"}>
+        <OwnerBubble>
+          <h1>P</h1>
+        </OwnerBubble>
+      </BubbleContainer>
     </Container>
   );
 }
