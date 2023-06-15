@@ -28,7 +28,7 @@ interface IChatProps {
 }
 
 export default function App() {
-  const [chatList, setChatList] = useState([""]);
+  const [chatList, setChatList] = useState<string[]>();
   const [chat, setChat] = useState("");
   const [id, setId] = useState("0");
 
@@ -47,7 +47,7 @@ export default function App() {
       () => {
         client.current?.subscribe(`/sub/chat/${id}`, (body) => {
           const json_body = JSON.parse(body.body);
-          setChatList((_chat_list) => [..._chat_list, json_body]);
+          setChatList((_chat_list) => [..._chat_list!, json_body]);
         });
       }
     );
@@ -87,6 +87,7 @@ export default function App() {
     connectHandler();
   }, []);
 
+  console.log(typeof chatList);
   console.log(chatList);
 
   return (
