@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import SockJS from "sockjs-client";
 import { WebSocket } from "ws";
 import Chat from "./components/Chat";
+import { styled } from "styled-components";
+import "./styles/form.css";
 
 // function connect(id: any, setChatList: any) {
 //   let client = new Client({
@@ -96,16 +98,20 @@ export default function App() {
         <h1>{JSON.stringify(value)}</h1>
       ))} */}
       <Chat />
-      <form onSubmit={(event) => handleSubmit(event, chat)}>
-        <div>
+      <form
+        className="textForm"
+        onSubmit={(event) => handleSubmit(event, chat)}
+      >
+        <div className="textBox">
           <input
+            className="textBoxInput"
             type={"text"}
             name={"chatInput"}
             onChange={handleChange}
             value={chat}
           />
         </div>
-        <input type={"submit"} value={"의견 보내기"} />
+        <input type={"submit"} value={"의견 보내기"} className="textSubmit" />
       </form>
     </div>
   );
