@@ -6,6 +6,7 @@ import { WebSocket } from "ws";
 import Chat from "./components/Chat";
 import { styled } from "styled-components";
 import "./styles/form.css";
+import uuid from "react-uuid";
 
 // function connect(id: any, setChatList: any) {
 //   let client = new Client({
@@ -30,7 +31,7 @@ interface IChatProps {
 }
 
 export default function App() {
-  const [chatList, setChatList] = useState<string[]>();
+  const [chatList, setChatList] = useState<IChatProps[]>([]);
   const [chat, setChat] = useState("");
   const [id, setId] = useState("0");
 
@@ -38,7 +39,7 @@ export default function App() {
 
   const connectHandler = () => {
     client.current = Stomp.over(() => {
-      const sock = new SockJS("http://172.30.1.31:8080/ws");
+      const sock = new SockJS("http://nineto6.kro.kr:8080/ws");
       return sock;
     });
 
@@ -49,7 +50,7 @@ export default function App() {
       () => {
         client.current?.subscribe(`/sub/chat/${id}`, (body) => {
           const json_body = JSON.parse(body.body);
-          setChatList((_chat_list) => [..._chat_list!, json_body]);
+          setChatList((_chat_list) => [..._chat_list, json_body]);
         });
       }
     );
@@ -83,6 +84,7 @@ export default function App() {
     event.preventDefault();
 
     publish(chat);
+    setChat("");
   };
 
   useEffect(() => {
@@ -94,9 +96,9 @@ export default function App() {
 
   return (
     <div>
-      {/* {chatList.slice(1).map((value) => (
-        <h1>{JSON.stringify(value)}</h1>
-      ))} */}
+      {chatList?.map((value) => (
+        <h1 key={uuid()}>{JSON.stringify(value.message)}</h1>
+      ))}
       <Chat />
       <form
         className="textForm"
