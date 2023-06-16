@@ -48,7 +48,7 @@ export default function App() {
         Authorization: "ghewughewghewoighiewhgiewhgoiewo",
       },
       () => {
-        client.current?.subscribe(`/sub/chat/${id}`, (body) => {
+        client.current?.subscribe(`api/sub/chat/${id}`, (body) => {
           const json_body = JSON.parse(body.body);
           setChatList((_chat_list) => [..._chat_list, json_body]);
         });
@@ -68,7 +68,7 @@ export default function App() {
     // };
 
     client.current?.publish({
-      destination: "/pub/chat",
+      destination: "api/pub/chat",
       body: JSON.stringify({
         channelId: id,
         writerId: id,
@@ -97,9 +97,9 @@ export default function App() {
   return (
     <div>
       {chatList?.map((value) => (
-        <h1 key={uuid()}>{JSON.stringify(value.message)}</h1>
+        // <h1 >{JSON.stringify(value.message)}</h1>
+        <Chat key={uuid()} text={value.message} />
       ))}
-      <Chat />
       <form
         className="textForm"
         onSubmit={(event) => handleSubmit(event, chat)}
