@@ -8,22 +8,6 @@ import { styled } from "styled-components";
 import "./styles/form.css";
 import uuid from "react-uuid";
 
-// function connect(id: any, setChatList: any) {
-//   let client = new Client({
-//     brokerURL: `ws://172.30.1.31:8080/ws`,
-//     onConnect: () => {
-//       client.subscribe(`/sub/chat/${id}`, (message) => {
-//         const json_body = JSON.parse(message.body);
-//         setChatList((_chat_list: any) => [..._chat_list, json_body]);
-//       });
-//       // client.publish({ destination: "/pub/chat", body: "Message" });
-//     },
-
-//   });
-//   client.activate();
-//   return client;
-// }
-
 interface IChatProps {
   channelId: string;
   writerId: string;
@@ -39,7 +23,7 @@ export default function App() {
 
   const connectHandler = () => {
     client.current = Stomp.over(() => {
-      const sock = new SockJS("http://nineto6.kro.kr:8080/ws");
+      const sock = new SockJS("https://nineto6.kro.kr:8080/ws");
       return sock;
     });
 
@@ -56,17 +40,7 @@ export default function App() {
     );
   };
 
-  // const disconnect = () => {
-  //   client.deactivate();
-  // };
-
   const publish = (chat: string) => {
-    // const object: IChatProps = {
-    //   channelId: id,
-    //   writerId: id,
-    //   message: chat,
-    // };
-
     client.current?.publish({
       destination: "api/pub/chat",
       body: JSON.stringify({
@@ -97,7 +71,6 @@ export default function App() {
   return (
     <div>
       {chatList?.map((value) => (
-        // <h1 >{JSON.stringify(value.message)}</h1>
         <Chat key={uuid()} text={value.message} />
       ))}
       <form
