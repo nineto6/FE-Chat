@@ -2,11 +2,10 @@ import { Client, CompatClient, Stomp } from "@stomp/stompjs";
 import { subscribe } from "diagnostics_channel";
 import { useEffect, useRef, useState } from "react";
 import SockJS from "sockjs-client";
-import { WebSocket } from "ws";
-import Chat from "./components/Chat";
-import { styled } from "styled-components";
+
 import "./styles/form.css";
 import uuid from "react-uuid";
+import Chat from "./components/Chat";
 
 interface IChatProps {
   channelId: string;
@@ -21,18 +20,21 @@ export default function App() {
 
   let client = useRef<CompatClient>();
 
-  const connectHandler = () => {
-    client.current = Stomp.over(() => {
-      const sock = new SockJS("https://nineto6.kro.kr:8080/ws");
+  const connectHandler = async () => {
+    const token = await JSON.parse(localStorage.getItem("accessToken") || "{}");
+    client.current = await Stomp.over(() => {
+      const sock = new SockJS("http://nineto6.kro.kr:8080/ws");
       return sock;
     });
 
+    console.log(`token: ${token}`);
+
     client.current.connect(
       {
-        Authorization: "ghewughewghewoighiewhgiewhgoiewo",
+        Authorization: `Bearer ${token}1`,
       },
       () => {
-        client.current?.subscribe(`api/sub/chat/${id}`, (body) => {
+        client.current?.subscribe(`/sub/chat/${id}`, (body) => {
           const json_body = JSON.parse(body.body);
           setChatList((_chat_list) => [..._chat_list, json_body]);
         });
@@ -42,7 +44,7 @@ export default function App() {
 
   const publish = (chat: string) => {
     client.current?.publish({
-      destination: "api/pub/chat",
+      destination: "/pub/chat",
       body: JSON.stringify({
         channelId: id,
         writerId: id,

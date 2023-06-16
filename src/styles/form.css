@@ -11,14 +11,15 @@
 }
 
 .textBoxInput {
-  background-color: cadetblue;
+  background-color: #da3467;
   width: 100%;
   height: 100%;
   border: none;
 }
 
 .textSubmit {
-  background-color: aqua;
+  background-color: #35333f;
+  color: #f1e0cd;
   font-size: 32px;
   text-align: center;
   border: none;
