@@ -6,6 +6,7 @@ import SockJS from "sockjs-client";
 import "./styles/form.css";
 import uuid from "react-uuid";
 import Chat from "./components/Chat";
+import { useNavigate } from "react-router-dom";
 
 interface IChatProps {
   channelId: string;
@@ -17,6 +18,7 @@ export default function App() {
   const [chatList, setChatList] = useState<IChatProps[]>([]);
   const [chat, setChat] = useState("");
   const [id, setId] = useState("0");
+  const nav = useNavigate();
 
   let client = useRef<CompatClient>();
 
@@ -31,15 +33,24 @@ export default function App() {
 
     client.current.connect(
       {
-        Authorization: `Bearer ${token}1`,
+        Authorization: `Bearer ${token}`,
       },
       () => {
         client.current?.subscribe(`/sub/chat/${id}`, (body) => {
           const json_body = JSON.parse(body.body);
           setChatList((_chat_list) => [..._chat_list, json_body]);
         });
+      },
+      () => {
+        alert("error");
+        nav("/login");
       }
     );
+
+    client.current.onStompError = (frame) => {
+      console.log("Broker reported error: " + frame.headers["message"]);
+      console.log("Additional details: " + frame.body);
+    };
   };
 
   const publish = (chat: string) => {
