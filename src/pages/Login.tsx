@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { OnFormPostData } from "../api";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 export interface IFormData {
   userId: String;
@@ -21,7 +22,9 @@ export default function Login() {
     mutate(data);
     // refetch(); // 2023.05.02 현재 GET 요청부분이 없으므로 주석처리
     nav("/");
+    nav(0);
   };
+
   return (
     <div>
       <form
