@@ -21,6 +21,7 @@ export default function App() {
   const nav = useNavigate();
 
   let client = useRef<CompatClient>();
+  let listener = localStorage.getItem("accessToken") ? true : false;
 
   const connectHandler = async () => {
     const token = await JSON.parse(localStorage.getItem("accessToken") || "{}");
@@ -29,7 +30,7 @@ export default function App() {
       return sock;
     });
 
-    console.log(`token: ${token}`);
+    // console.log(`token: ${token}`);
 
     client.current.connect(
       {
@@ -38,6 +39,7 @@ export default function App() {
       () => {
         client.current?.subscribe(`/sub/chat/${id}`, (body) => {
           const json_body = JSON.parse(body.body);
+          console.log(`JSON-BODY : ${body.body}`);
           setChatList((_chat_list) => [..._chat_list, json_body]);
         });
       },
@@ -76,7 +78,7 @@ export default function App() {
 
   useEffect(() => {
     connectHandler();
-  }, []);
+  }, [listener]);
 
   console.log(typeof chatList);
   console.log(chatList);

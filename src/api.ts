@@ -17,11 +17,14 @@ export const SignUpData = async (data: ISignUpData) => {
 export const OnFormPostData = () => {
   return useMutation(formPostData);
 };
+
 export const formPostData = async (data: IFormData) => {
   return await axios
     .post(`${process.env.REACT_APP_URL}/api/users/login`, data)
     .then((response) => {
-      console.log(response);
+      console.log(`response : ${response.data.userInfo.userNm}`);
+      // recoil 사용 예정
+
       let ACCESS_TOKEN = JSON.stringify(
         response.headers["access-token"]
       ); /*.replace(/\"/gi, "")*/

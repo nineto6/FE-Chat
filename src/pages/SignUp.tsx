@@ -35,7 +35,7 @@ export default function SignUp() {
     if (checker) {
       mutate(data);
       console.log("SUCCESS");
-      // nav("/");
+      nav("/");
     }
   };
   const checkId = async () => {
