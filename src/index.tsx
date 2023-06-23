@@ -4,6 +4,7 @@ import App from "./App";
 import "./css.css";
 import Router from "./Router";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { RecoilRoot } from "recoil";
 
 const testApi = new QueryClient();
 
@@ -12,6 +13,8 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <QueryClientProvider client={testApi}>
-    <Router />
+    <RecoilRoot>
+      <Router />
+    </RecoilRoot>
   </QueryClientProvider>
 );

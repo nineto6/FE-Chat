@@ -2,6 +2,8 @@ import axios from "axios";
 import { ISignUpData } from "./pages/SignUp";
 import { useMutation } from "react-query";
 import { IFormData } from "./pages/Login";
+import { useRecoilState } from "recoil";
+import { userState } from "./Atoms";
 
 export const OnSignUpData = () => {
   return useMutation(SignUpData);
@@ -15,14 +17,17 @@ export const SignUpData = async (data: ISignUpData) => {
 };
 
 export const OnFormPostData = () => {
-  return useMutation(formPostData);
+  return useMutation(useFormPostData);
 };
 
-export const formPostData = async (data: IFormData) => {
+export const useFormPostData = async (data: IFormData) => {
+  // const [userName, setUserName] = useRecoilState(userState);
+
   return await axios
     .post(`${process.env.REACT_APP_URL}/api/users/login`, data)
     .then((response) => {
       console.log(`response : ${response.data.userInfo.userNm}`);
+      // setUserName(response.data.userInfo.userNm);
       // recoil 사용 예정
 
       let ACCESS_TOKEN = JSON.stringify(

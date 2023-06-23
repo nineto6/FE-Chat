@@ -7,6 +7,9 @@ import "./styles/form.css";
 import uuid from "react-uuid";
 import Chat from "./components/Chat";
 import { useNavigate } from "react-router-dom";
+import { userState } from "./Atoms";
+import { useRecoilState } from "recoil";
+import User from "./components/User";
 
 interface IChatProps {
   channelId: string;
@@ -17,8 +20,8 @@ interface IChatProps {
 export default function App() {
   const [chatList, setChatList] = useState<IChatProps[]>([]);
   const [chat, setChat] = useState("");
-  const [id, setId] = useState("0");
   const nav = useNavigate();
+  const [userName, setUserName] = useRecoilState(userState);
 
   let client = useRef<CompatClient>();
   let listener = localStorage.getItem("accessToken") ? true : false;
@@ -37,7 +40,7 @@ export default function App() {
         Authorization: `Bearer ${token}`,
       },
       () => {
-        client.current?.subscribe(`/sub/chat/${id}`, (body) => {
+        client.current?.subscribe(`/sub/chat/${userName}`, (body) => {
           const json_body = JSON.parse(body.body);
           console.log(`JSON-BODY : ${body.body}`);
           setChatList((_chat_list) => [..._chat_list, json_body]);
@@ -59,8 +62,8 @@ export default function App() {
     client.current?.publish({
       destination: "/pub/chat",
       body: JSON.stringify({
-        channelId: id,
-        writerId: id,
+        channelId: userName,
+        writerNm: userName,
         message: chat,
       }),
     });
@@ -78,6 +81,7 @@ export default function App() {
 
   useEffect(() => {
     connectHandler();
+    console.log(userName);
   }, [listener]);
 
   console.log(typeof chatList);
@@ -85,6 +89,7 @@ export default function App() {
 
   return (
     <div>
+      <User name={userName.userNm} />
       {chatList?.map((value) => (
         <Chat key={uuid()} text={value.message} />
       ))}

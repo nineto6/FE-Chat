@@ -2,12 +2,18 @@ import { useForm } from "react-hook-form";
 import { OnFormPostData } from "../api";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { useRecoilState } from "recoil";
+import { userState } from "../Atoms";
+import axios from "axios";
 
 export interface IFormData {
   userId: string;
   userPw: string;
 }
 export default function Login() {
+  const [userName, setUserName] = useRecoilState(userState);
+  const { mutate } = OnFormPostData();
+
   const nav = useNavigate();
   const {
     register,
@@ -16,12 +22,16 @@ export default function Login() {
     formState: { errors },
   } = useForm<IFormData>();
 
-  const { mutate } = OnFormPostData();
+  const onValid = async (data: IFormData) => {
+    await mutate(data);
+    await axios
+      .post(`${process.env.REACT_APP_URL}/api/users/login`, data)
+      .then((response) => {
+        setUserName(response.data.userInfo.userNm);
+      });
 
-  const onValid = (data: IFormData) => {
-    mutate(data);
     // refetch(); // 2023.05.02 현재 GET 요청부분이 없으므로 주석처리
-    // nav("/");
+    nav("/");
   };
 
   return (
