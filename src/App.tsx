@@ -88,6 +88,10 @@ export default function App() {
   useEffect(() => {
     connectHandler();
     console.log(userName);
+    if (!listener) {
+      nav("/login");
+      nav(0);
+    }
   }, [listener]);
 
   console.log(typeof chatList);
