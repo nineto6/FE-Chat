@@ -10,12 +10,15 @@ import { useNavigate } from "react-router-dom";
 import { userState } from "./Atoms";
 import { useRecoilState } from "recoil";
 import User from "./components/User";
+import NavBar from "./components/NavBar";
 
 interface IChatProps {
   channelId: string;
   writerId: string;
   message: string;
 }
+
+const CHANNEL_ID = `d61c9fab-665a-48ab-bb2b-3de7e2bdb4d9`;
 
 export default function App() {
   const [chatList, setChatList] = useState<IChatProps[]>([]);
@@ -40,9 +43,12 @@ export default function App() {
         Authorization: `Bearer ${token}`,
       },
       () => {
-        client.current?.subscribe(`/sub/chat/${userName}`, (body) => {
+        client.current?.subscribe(`/sub/chat/${CHANNEL_ID}`, (body) => {
           const json_body = JSON.parse(body.body);
+
+          console.log(`JSON : ${body}`);
           console.log(`JSON-BODY : ${body.body}`);
+          console.log(`JSON-HEADER : ${body.headers}`);
           setChatList((_chat_list) => [..._chat_list, json_body]);
         });
       },
@@ -62,7 +68,7 @@ export default function App() {
     client.current?.publish({
       destination: "/pub/chat",
       body: JSON.stringify({
-        channelId: userName,
+        channelId: CHANNEL_ID,
         writerNm: userName,
         message: chat,
       }),
