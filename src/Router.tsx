@@ -3,6 +3,7 @@ import App from "./App";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
 import NavBar from "./components/NavBar";
+import ChatRoomList from "./pages/ChatRoomList";
 
 const useRouter = () => {
   const router = createBrowserRouter([
@@ -30,6 +31,15 @@ const useRouter = () => {
         <>
           <NavBar />
           <Login />
+        </>
+      ),
+    },
+
+    {
+      path: "/chatroom",
+      element: (
+        <>
+          <ChatRoomList />
         </>
       ),
     },
