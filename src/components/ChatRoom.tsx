@@ -32,7 +32,7 @@ const Message = styled.div`
   align-items: center;
 `;
 
-const Bubble = styled.span`
+const Bubble = styled.span<{ visible: boolean }>`
   background-color: red;
   color: white;
 
@@ -46,18 +46,31 @@ const Bubble = styled.span`
   height: 24px;
 
   border-radius: 18px;
+  opacity: ${(props) => (props.visible ? 1 : 0)};
 `;
 
-export default function ChatRoom() {
+interface IChatRoomProps {
+  title: string;
+  message: string;
+  recentTime: string;
+  bubble: number;
+}
+
+export default function ChatRoom({
+  title,
+  message,
+  recentTime,
+  bubble,
+}: IChatRoomProps) {
   return (
     <Room>
       <RoomInfo>
-        <RoomName>23학번</RoomName>
-        <RecentTime>오후 5:34</RecentTime>
+        <RoomName>{title}</RoomName>
+        <RecentTime>{recentTime}</RecentTime>
       </RoomInfo>
       <Message>
-        <div>안녕</div>
-        <Bubble>300</Bubble>
+        <div>{message}</div>
+        <Bubble visible={bubble == 0 ? false : true}>{bubble}</Bubble>
       </Message>
     </Room>
   );
