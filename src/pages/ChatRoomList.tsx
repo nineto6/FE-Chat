@@ -1,32 +1,10 @@
 import { styled } from "styled-components";
 import ChatRoom from "../components/ChatRoom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getChatRoomData } from "../api";
 import { useQuery } from "react-query";
-
-const db = [
-  {
-    roomId: 1,
-    title: "23학번",
-    message: "반갑습니다",
-    recentTime: "오후 5:33",
-    bubble: 1,
-  },
-  {
-    roomId: 2,
-    title: "모임",
-    message: "어서오세요",
-    recentTime: "07/28",
-    bubble: 300,
-  },
-  {
-    roomId: 3,
-    title: "차민혁",
-    message: "어서오고",
-    recentTime: "07/28",
-    bubble: 5,
-  },
-];
+import { BiCommentAdd } from "react-icons/bi";
+import AddRoomModal from "../components/AddRoomModal";
 
 export interface IRoomListProps {
   channelId?: string;
@@ -36,6 +14,10 @@ export interface IRoomListProps {
   dateTime: string;
 }
 
+const Add = styled.div`
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 48;
+`;
+
 export default function ChatRoomList() {
   const { data, isLoading } = useQuery("chatRoomData", getChatRoomData, {
     onSuccess: (data) => {
@@ -43,12 +25,16 @@ export default function ChatRoomList() {
     },
   });
 
-  // const getData = async () => {
-  //   console.log(data);
-  // };
+  const [addRoom, setAddRoom] = useState(false);
+
+  const addChatRoom = () => {
+    setAddRoom((current) => !current);
+  };
 
   return (
     <>
+      {addRoom && <AddRoomModal setAddRoom={setAddRoom} />}
+      <BiCommentAdd size={40} onClick={addChatRoom} />
       {data?.data?.result?.map((roomList: IRoomListProps) => (
         <ChatRoom
           key={roomList.channelId}
