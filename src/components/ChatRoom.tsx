@@ -1,4 +1,5 @@
 import { styled } from "styled-components";
+import { IRoomListProps } from "../pages/ChatRoomList";
 
 const Room = styled.div`
   width: 500px;
@@ -32,7 +33,7 @@ const Message = styled.div`
   align-items: center;
 `;
 
-const Bubble = styled.span<{ visible: boolean }>`
+const Bubble = styled.span`
   background-color: red;
   color: white;
 
@@ -46,31 +47,30 @@ const Bubble = styled.span<{ visible: boolean }>`
   height: 24px;
 
   border-radius: 18px;
-  opacity: ${(props) => (props.visible ? 1 : 0)};
 `;
 
-interface IChatRoomProps {
-  title: string;
-  message: string;
-  recentTime: string;
-  bubble: number;
-}
+// interface IChatRoomProps {
+//   title: string;
+//   message: string;
+//   recentTime: string;
+//   bubble: number;
+// }
 
 export default function ChatRoom({
   title,
-  message,
-  recentTime,
-  bubble,
-}: IChatRoomProps) {
+  writerId,
+  writerNm,
+  dateTime,
+}: IRoomListProps) {
   return (
     <Room>
       <RoomInfo>
         <RoomName>{title}</RoomName>
-        <RecentTime>{recentTime}</RecentTime>
+        <RecentTime>{dateTime.slice(0, 10)}</RecentTime>
       </RoomInfo>
       <Message>
-        <div>{message}</div>
-        <Bubble visible={bubble == 0 ? false : true}>{bubble}</Bubble>
+        <div>{writerId}</div>
+        <Bubble>{writerNm}</Bubble>
       </Message>
     </Room>
   );

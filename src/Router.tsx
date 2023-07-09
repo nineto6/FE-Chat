@@ -12,7 +12,7 @@ const useRouter = () => {
       element: (
         <>
           <NavBar />
-          <App />
+          <ChatRoomList />
         </>
       ),
     },
@@ -35,14 +35,14 @@ const useRouter = () => {
       ),
     },
 
-    {
-      path: "/chatroom",
-      element: (
-        <>
-          <ChatRoomList />
-        </>
-      ),
-    },
+    // {
+    //   path: "/chatroom",
+    //   element: (
+    //     <>
+    //       <ChatRoomList />
+    //     </>
+    //   ),
+    // },
   ]);
 
   return router;

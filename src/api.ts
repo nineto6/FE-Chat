@@ -45,3 +45,17 @@ export const useFormPostData = async (data: IFormData) => {
       console.log(error);
     });
 };
+
+export const getChatRoomData = async () => {
+  let token = await JSON.parse(localStorage.getItem("accessToken") || "{}");
+
+  return await axios.get(`${process.env.REACT_APP_URL}/api/chatroom`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  // .then((response) => {
+  //   console.log("RES:");
+  //   console.log(response);
+  // });
+};
