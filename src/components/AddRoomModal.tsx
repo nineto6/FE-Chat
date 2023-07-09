@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { styled } from "styled-components";
 import { TiDeleteOutline } from "react-icons/ti";
+import axios from "axios";
 
 const Backgound = styled.div`
   display: flex;
@@ -55,8 +56,6 @@ const ModalForm = styled.form`
 
 interface IAddModalData {
   title: string;
-  writerId: string;
-  writerName: string;
 }
 
 export default function AddRoomModal({ setAddRoom }: any) {
@@ -68,7 +67,13 @@ export default function AddRoomModal({ setAddRoom }: any) {
   } = useForm<IAddModalData>();
 
   const onValid = async (data: IAddModalData) => {
-    // closeModal();
+    const token = JSON.parse(localStorage.getItem("accessToken") || "{}");
+    await axios.post(`${process.env.REACT_APP_URL}/api/chatroom`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    closeModal();
   };
 
   const closeModal = () => {
