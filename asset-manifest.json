@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/FE-Chat/static/css/main.03b392c7.css",
+    "main.js": "/FE-Chat/static/js/main.6ddef332.js",
+    "index.html": "/FE-Chat/index.html",
+    "main.03b392c7.css.map": "/FE-Chat/static/css/main.03b392c7.css.map",
+    "main.6ddef332.js.map": "/FE-Chat/static/js/main.6ddef332.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.03b392c7.css",
+    "static/js/main.6ddef332.js"
+  ]
+}
